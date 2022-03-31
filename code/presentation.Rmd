@@ -2,6 +2,7 @@
 title: "Desafio FortBrasil"
 author: "Gabriel Alvaro Batista"
 output:
+  pdf_document: default
   html_document: default
 ---
 
@@ -31,7 +32,7 @@ q1_data = read_table(unz("./data/data.zip", "Q1_Base.txt"))
 
 ## 1.1
 
-Aqui, foram feitos os devidos tratamentos e cálculos necessários para obtermos o percentual de faturas cujo cliente associado não pagou a fatura do mês anterior.  O resultado obtido foi resumido abaixo para melhor visualização. fornecido.
+Aqui, foram feitos os devidos tratamentos e cálculos necessários para obtermos o percentual de faturas cujo cliente associado não pagou a fatura do mês anterior.  O resultado obtido foi resumido abaixo para melhor visualização.
 
 ```{r}
 # calculo do percentual

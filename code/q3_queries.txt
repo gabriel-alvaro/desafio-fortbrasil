@@ -1,0 +1,49 @@
+-- 3.1
+SELECT p.id_pessoa, p.nm_pessoa, t.dt_ref, v.vl_venda
+	FROM f_Vendas AS v
+	INNER JOIN d_Pessoa AS p
+	ON v.id_pessoa = p.id_pessoa
+	INNER JOIN d_Tempo AS t
+	ON v.id_tempo = t.id_tempo
+	INNER JOIN d_Loja AS l
+	ON v.id_loja = l.id_loja
+WHERE t.nu_mes = 1
+	AND t.nu_ano = 2020
+	AND l.ds_uf = 'CE'
+
+-- 3.2
+SELECT p.id_pessoa, COUNT(v.id_venda) AS qtd_compras 
+	FROM f_Vendas as v
+	INNER JOIN d_pessoa AS p
+	ON v.id_pessoa = p.id_pessoa
+	INNER JOIN d_tempo AS t
+	ON v.id_tempo = t.id_tempo
+WHERE t.nu_mes = 3
+	AND t.nu_ano = 2020
+GROUP BY p.id_pessoa
+
+-- 3.3
+SELECT DISTINCT p.id_pessoa, p.nm_pessoa
+	FROM d_Pessoa AS p
+	LEFT JOIN f_Vendas AS v
+	ON p.id_pessoa = v.id_pessoa
+	LEFT JOIN d_Tempo AS t
+	ON v.id_tempo = t.id_tempo
+WHERE t.nu_mes IS NOT 3
+	AND p.id_pessoa NOT IN
+		(SELECT p.id_pessoa
+		FROM d_Pessoa AS p
+		LEFT JOIN f_Vendas AS v
+		ON p.id_pessoa = v.id_pessoa
+		LEFT JOIN d_Tempo AS t
+		ON v.id_tempo = t.id_tempo
+		WHERE nu_mes = 3)
+
+-- 3.4
+SELECT p.id_pessoa, MAX(dt_ref) AS ultima_compra
+	FROM f_Vendas AS v
+	INNER JOIN d_Tempo as t
+	ON v.id_tempo = t.id_tempo
+	INNER JOIN d_Pessoa as p
+	ON v.id_pessoa = p.id_pessoa
+GROUP BY p.id_pessoa

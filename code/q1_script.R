@@ -26,7 +26,7 @@ percentual_plot = percentual %>%
   theme(legend.position = "none")
 
 # exportando grafico como arquivo jpg
-ggsave(filename = "./outputs/Q1_Grafico.jpg",
+ggsave(filename = "./output/Q1_Grafico.jpg",
        plot = percentual_plot,
        height = 3,
        width = 6)
@@ -51,7 +51,7 @@ q1_resposta = merge(clientes_setembro,
   select(-MES, -VL_FATURA)
 
 # exportando o dataframe como arquivo txt
-output_file = "./outputs/Q1_Resposta.txt"
+output_file = "./output/Q1_Resposta.txt"
 
 if (file.exists(output_file)){
   file.remove(output_file)

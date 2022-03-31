@@ -1,0 +1,14 @@
+---
+title: "Desafio FortBrasil"
+author: "Gabriel Alvaro Batista"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+# Questão 1
+## 1.1
+
+Para esta questão, importei os dados diretamente

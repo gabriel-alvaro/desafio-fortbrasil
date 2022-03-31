@@ -25,6 +25,7 @@ percentual_plot = percentual %>%
        title = "Percentual de clientes com faturas não pagas no mês anterior") +
   theme(legend.position = "none")
 
+# exportando grafico como arquivo jpg
 ggsave(filename = "./outputs/Q1_Grafico.jpg",
        plot = percentual_plot,
        height = 3,

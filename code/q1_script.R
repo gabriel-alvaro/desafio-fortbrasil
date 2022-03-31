@@ -51,4 +51,10 @@ q1_resposta = merge(clientes_setembro,
   select(-MES, -VL_FATURA)
 
 # exportando o dataframe como arquivo txt
-write_tsv(q1_resposta, "./outputs/Q1_Resposta.txt")
+output_file = "./outputs/Q1_Resposta.txt"
+
+if (file.exists(output_file)){
+  file.remove(output_file)
+}
+
+write_tsv(q1_resposta, output_file)

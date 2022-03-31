@@ -2,13 +2,14 @@
 library(RSQLite)
 
 # criando banco de dados
-database = "./output/vendas_sample.sqlite3"
-if(file.exists(database)){
-  file.remove(database)
+sample_db = "./data/vendas_sample.sqlite3"
+if(file.exists(sample_db)){
+  file.remove(sample_db)
 }
 
-conn = dbConnect(SQLite(), database)
+conn = dbConnect(SQLite(), sample_db)
 
+# inserindo dados no bd para testar as queries
 df_Tempo = data.frame(id_tempo = c(1, 2, 3, 4, 5, 6),
                       dt_ref = c("2020-01-01", "2020-03-02", "2020-03-01", "2020-04-01", "2020-05-01", "2020-01-16"),
                       nu_semana = c(1, 1, 1, 1, 1, 2),
@@ -20,7 +21,7 @@ df_Loja = data.frame(id_loja = c(5, 6, 7, 8),
                      nu_cep = c(123, 456, 789, 10123))
 
 df_Pessoa = data.frame(id_pessoa = c(10, 11, 12, 13, 14),
-                       nm_pessoa = c("João", "Maria", "Bruno", "Felipe", "Zé"))
+                       nm_pessoa = c("João", "Maria", "Bruno", "Felipe", "José"))
 
 df_Vendas = data.frame(id_venda = c(20, 21, 22, 23, 24, 25),
                        vl_venda = c(55, 66, 77, 88, 99, 88),

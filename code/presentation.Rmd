@@ -255,15 +255,3 @@ dbGetQuery(conn,
            GROUP BY p.id_pessoa")
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-

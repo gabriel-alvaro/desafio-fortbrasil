@@ -3,22 +3,17 @@ library(tidyverse)
 library(lubridate)
 
 ## importacao dos dados
-# !! importante: definir diretorio na variavel data_dir !!
-data_dir = "../data"
-filenames = list.files(data_dir)
-
-q1_data = read_table(paste(data_dir, filenames[1], sep = "/"))
+q1_data = read_table(unz("./data/data.zip", "Q1_Base.txt"))
 
 ## questao 1.1
 percentual = q1_data %>%
-  mutate(PAG_FATURA = ifelse(DS_ROLAGEM == "FX1", TRUE, FALSE)) %>%
-  mutate(MES = month(DT_VENCIMENTO, label = TRUE)) %>%
-  select(-DS_ROLAGEM, -ID_CONTA, -VL_FATURA, -DT_VENCIMENTO) %>%
+  mutate(MES = month(DT_VENCIMENTO, label = TRUE, locale = "Portuguese")) %>%
+  select(-ID_CONTA, -VL_FATURA, -DT_VENCIMENTO) %>%
   group_by(MES) %>%
-  summarise(PERCENTUAL_PGTO = sum(PAG_FATURA)/n())
+  summarise(PERCENTUAL_PGTO = sum(DS_ROLAGEM == "FX1")/n())
 
 # grafico
-percentual %>%
+percentual_plot = percentual %>%
   ggplot(aes(x = MES, y = PERCENTUAL_PGTO, fill = MES)) +
   geom_bar(stat = "identity", colour ="black") +
   scale_fill_brewer(palette = "Greens") +
@@ -30,18 +25,23 @@ percentual %>%
        title = "Percentual de clientes com faturas não pagas no mês anterior") +
   theme(legend.position = "none")
 
+ggsave(filename = "./outputs/Q1_Grafico.jpg",
+       plot = percentual_plot,
+       height = 3,
+       width = 6)
+
 ## questao 1.2
 # criacao de dataframe auxiliar
 clientes_setembro = q1_data %>%
-  mutate(MES = month(DT_VENCIMENTO, label = TRUE)) %>%
-  filter(MES == "Sep")
+  mutate(MES = month(DT_VENCIMENTO, label = TRUE, locale = "Portuguese")) %>%
+  filter(MES == "set")
 
 # condicionamento dos dados e criacao da base resposta
 q1_resposta = merge(clientes_setembro, 
                          q1_data %>%
-                           mutate(MES = month(DT_VENCIMENTO, label = TRUE)) %>%
+                           mutate(MES = month(DT_VENCIMENTO, label = TRUE, locale = "Portuguese")) %>%
                            filter(ID_CONTA %in% clientes_setembro$ID_CONTA) %>%
-                           filter(MES %in% c("Mar", "Apr", "May", "Jun", "Jul", "Aug")) %>%
+                           filter(MES %in% c("mar", "abr", "mai", "jun", "jul", "ago")) %>%
                            group_by(ID_CONTA) %>%
                            summarise(QTD_FATURAS_ULT_6M = n(),
                                      VL_MEDIO_FATURA = mean(VL_FATURA),
@@ -50,24 +50,4 @@ q1_resposta = merge(clientes_setembro,
   select(-MES, -VL_FATURA)
 
 # exportando o dataframe como arquivo txt
-write_tsv(q1_resposta, "../data/Questão 1 - Resposta 1_2.txt")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+write_tsv(q1_resposta, "./data/Q1_Resposta.txt")

@@ -111,7 +111,7 @@ dplyr::glimpse(read.table("../output/Q1_Resposta.txt", nrows = 50, header = TRUE
 
 ## 2.1
 
-Assim como na primeira questão, neste item importamos o banco de dados e aplicamos os devidos tratamentos para a obtenção dos dados desejados.
+Assim como na primeira questão, neste item importamos o banco de dados e aplicamos os devidos tratamentos para a obtenção dos dados desejados - o percentual de acordos aceitos por mês. A faixa de atraso utilizada foi mensal, para fins de simplicidade.
 
 Note que como a variável que estamos interessados (**Resposta**) está presente somente na primeira base de dados, só trabalhamos com ela nesse momento.
 
@@ -165,6 +165,8 @@ Um modelo de classificação tenta classificar os objetos em análise em grupos 
 Aplicando na nossa base de dados, a estratégia a ser utilizada seria analisar as variáveis relacionadas aos clientes (ex: quantas vezes foi tentado o contato, valor da dívida, número de dias em atraso, entre outros) e buscar entender o tipo de cliente que mais adere aos acordos da empresa. Com essa informação em mãos, seria possível direcionar as cobranças aos clientes que possuem maior probabilidade de aceitar um acordo, o que reduziria tempo e recursos perdidos cobrando clientes que, de acordo com os resultados do nosso modelo, tem uma baixa taxa de adesão.
 
 ## 2.3
+
+## 2.4
 
 
 ***

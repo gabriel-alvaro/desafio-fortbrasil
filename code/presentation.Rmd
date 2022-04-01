@@ -56,22 +56,12 @@ percentual_plot = percentual %>%
   labs(x = "Mês", y = "Percentual",
        title = "Percentual de clientes com faturas não pagas no mês anterior") +
   theme(legend.position = "none")
-
-# exportando grafico como arquivo jpg
-ggsave(filename = "./output/Q1_Grafico.jpg",
-       plot = percentual_plot,
-       height = 3,
-       width = 6)
-
 ```
 
-\
-
-```{r, eval = TRUE, echo = FALSE, out.width = "450px", fig.align = "center"}
+```{r, eval = TRUE, echo = FALSE, out.width = "350px", fig.align = "center"}
 knitr::include_graphics('../output/Q1_Grafico.jpg')
 ```
 
-\newpage
 ***
 
 ## 1.2
@@ -109,9 +99,7 @@ if (file.exists(output_file)){
 write_tsv(q1_resposta, output_file)
 ```
 
-\
-
-Podemos carregar a base de dados criada para verificar se foram salvos corretamente:
+Podemos carregar a base criada para verificar se os dados foram salvos corretamente:
 
 ```{r, eval = TRUE}
 dplyr::glimpse(read.table("../output/Q1_Resposta.txt", nrows = 50, header = TRUE))
@@ -120,6 +108,63 @@ dplyr::glimpse(read.table("../output/Q1_Resposta.txt", nrows = 50, header = TRUE
 ***
 
 # Questão 2
+
+## 2.1
+
+Assim como na primeira questão, neste item importamos o banco de dados e aplicamos os devidos tratamentos para a obtenção dos dados desejados.
+
+Note que como a variável que estamos interessados (**Resposta**) está presente somente na primeira base de dados, só trabalhamos com ela nesse momento.
+
+O resultado obtido foi resumido graficamente para melhor visualização, mas o código e suas respectivas saídas podem ser verificados no arquivo *q2_script.R*, na pasta *code*.
+
+```{r}
+## setup
+library(tidyverse)
+library(lubridate)
+
+# importacao da base
+q2_data_1 = read.table(unz("./data/data.zip", "Q2_Base1.txt"),
+                       sep = "\t", 
+                       header = TRUE)
+
+# calculo do percentual
+percentual_adesao = q2_data_1 %>%
+  mutate(NU_MESES_ATRASO = as.integer(NU_DIAS_ATRASO/30)) %>%
+  group_by(NU_MESES_ATRASO) %>%
+  summarise(NU_ADESAO_MES = sum(RESPOSTA == 1)/n())
+
+# grafico
+percentual_adesao_plot = percentual_adesao %>%
+  ggplot(aes(x = NU_MESES_ATRASO, y = NU_ADESAO_MES)) +
+  geom_col(aes(fill = NU_MESES_ATRASO), colour = "black") +
+  scale_fill_gradient(low = "darkorange",
+                      high = "red") +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, 0.04)) +
+  scale_x_continuous(breaks = c(6:18)) +
+  labs(x = "Meses de atraso",
+       y = "Taxa de adesão por mês",
+       title = "Taxa de adesão ao acordo por mês de atraso") +
+  theme(legend.position = "none")
+
+```
+
+```{r, eval = TRUE, echo = FALSE, out.width = "350px", fig.align = "center"}
+knitr::include_graphics('../output/Q2_Grafico.jpg')
+```
+
+***
+\newpage
+## 2.2
+
+Observando a base de dados fornecida, o modelo de predição mais adequado seria um modelo de classificação utilizando um algoritmo de regressão logística.
+
+Um modelo de classificação tenta classificar os objetos em análise em grupos diferentes, e a partir daí podemos tomar uma decisão com base nos resultados. O algoritmo de regressão logística, em específico, busca calcular a probabilidade de um evento ocorrer ou não de acordo com as variáveis associadas ao evento em questão.
+
+Aplicando na nossa base de dados, a estratégia a ser utilizada seria analisar as variáveis relacionadas aos clientes (ex: quantas vezes foi tentado o contato, valor da dívida, número de dias em atraso, entre outros) e buscar entender o tipo de cliente que mais adere aos acordos da empresa. Com essa informação em mãos, seria possível direcionar as cobranças aos clientes que possuem maior probabilidade de aceitar um acordo, o que reduziria tempo e recursos perdidos cobrando clientes que, de acordo com os resultados do nosso modelo, tem uma baixa taxa de adesão.
+
+## 2.3
 
 
 ***

@@ -15,8 +15,8 @@ percentual = q1_data %>%
 # grafico
 percentual_plot = percentual %>%
   ggplot(aes(x = MES, y = PERCENTUAL_PGTO, fill = MES)) +
-  geom_bar(stat = "identity", colour ="black") +
-  scale_fill_brewer(palette = "Greens") +
+  geom_col(colour = "black") +
+  scale_fill_hue(h = c(50, 230), c = 80) +
   theme_minimal() +
   scale_y_continuous(labels = scales::percent, 
                      limits = c(0, 0.12),
@@ -29,7 +29,8 @@ percentual_plot = percentual %>%
 ggsave(filename = "./output/Q1_Grafico.jpg",
        plot = percentual_plot,
        height = 3,
-       width = 6)
+       width = 4,
+       scale = 2)
 
 ## questao 1.2
 # criacao de dataframe auxiliar

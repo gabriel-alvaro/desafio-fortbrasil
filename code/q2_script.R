@@ -63,18 +63,30 @@ q2_data_merged = merge(q2_data_1, q2_data_2, by = c("ID_CONTA", "DT_ACORDO"), al
 
 q2_data_merged[is.na(q2_data_merged)] = 0
 
-qtd_acionamento_outliers = c((quantile(q2_data_merged$QTD_ACIONAMENTO_6M)[2])-1.5*IQR(q2_data_merged$QTD_ACIONAMENTO_6M),
+q2_acionamento_outliers = c((quantile(q2_data_merged$QTD_ACIONAMENTO_6M)[2])-1.5*IQR(q2_data_merged$QTD_ACIONAMENTO_6M),
                   (quantile(q2_data_merged$QTD_ACIONAMENTO_6M)[4]+1.5*IQR(q2_data_merged$QTD_ACIONAMENTO_6M)))
 
-q2_data_merged %>%
-  select(ID_CONTA, DIVIDA_ATUAL, RESPOSTA) %>%
-  group_by(ID_CONTA)
+q2_divida_final = q2_data_merged %>%
+  select(ID_CONTA, DIVIDA_ATUAL, RESPOSTA, DT_ACORDO) %>%
+  group_by(ID_CONTA, RESPOSTA) %>%
+  summarise(DIVIDA_FINAL = max(DIVIDA_ATUAL),
+            RESPOSTA = max(RESPOSTA),
+            DT_ACORDO = max(DT_ACORDO))
 
 # exportando o dataframe completo como arquivo txt
 output_file = "./data/Q2_BaseCompleta.txt"
+output_divida = "./data/Q2_DividaFinal.txt"
 
 if (file.exists(output_file)){
   file.remove(output_file)
 }
 
 write_tsv(q2_data_merged, output_file)
+
+if (file.exists(output_divida)){
+  file.remove(output_divida)
+}
+
+write_tsv(q2_divida_final, output_divida)
+
+####

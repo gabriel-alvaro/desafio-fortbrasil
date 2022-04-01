@@ -166,6 +166,17 @@ Aplicando na nossa base de dados, a estratégia a ser utilizada seria analisar a
 
 ## 2.3
 
+Após a criação do nosso modelo preditivo, devemos implementar alguns métodos estatísticos para calcular sua eficiência e performance. A melhor métrica para se utilizar varia de acordo com o objetivo e o tipo de modelo, tendo inúmeras opções e nenhuma sendo necessariamente melhor que a outra. 
+
+Para o algoritmo de regressão logística, podemos utilizar uma matriz de confusão para determinar a **acurácia** do nosso modelo - ou seja, quantas vezes o modelo acertou na classificação. A **acurácia** é calculada pela razão entre os acertos e os erros do algoritmo:
+
+$$Acurácia = \frac{TP + TN}{TP + TN + FP + FN}$$
+
+onde TP e TN são verdadeiros positivos e negativos (True Positive e True Negative), e FP e FN são falsos positivos e negativos (False Positive e False Negative).
+
+Uma outra alternativa que temos para medir a eficácia do nosso modelo é a validação **AUC** (Area Under ROC Curve). Esse método calcula a área abaixo de uma curva gerada a partir da taxa de TPs e FPs (denominada curva ROC), e isso nos indica a proporção entre essas duas ocorrências na classificação - essencialmente, acertos e erros.
+
+
 ## 2.4
 
 

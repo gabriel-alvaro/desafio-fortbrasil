@@ -34,3 +34,47 @@ ggsave(filename = "./output/Q2_Grafico.jpg",
        height = 3,
        width = 4,
        scale = 2)
+
+
+# 2.4
+# lendo as outras bases de dados
+q2_data_2 = read.table(unz("./data/data.zip", "Q2_Base2.txt"),
+                       sep = "\t", 
+                       header = TRUE)
+
+q2_data_3 = read.table(unz("./data/data.zip", "Q2_Base3.txt"),
+                       sep = "\t", 
+                       header = TRUE)
+
+q2_data_4 = read.table(unz("./data/data.zip", "Q2_Base4.txt"),
+                       sep = "\t", 
+                       header = TRUE)
+q2_data_4$DT_ACORDO = as.character(as.Date(q2_data_4$DT_ACORDO))
+ 
+q2_data_5 = read.table(unz("./data/data.zip", "Q2_Base5.txt"),
+                       sep = "\t", 
+                       header = TRUE)
+
+# juntando todas as bases em uma unica base
+q2_data_merged = merge(q2_data_1, q2_data_2, by = c("ID_CONTA", "DT_ACORDO"), all = TRUE) %>%
+  merge(q2_data_3, by = c("ID_CONTA", "DT_ACORDO"), all = TRUE) %>%
+  merge(q2_data_4, by = c("ID_CONTA", "DT_ACORDO"), all = TRUE) %>%
+  merge(q2_data_5, by = c("ID_CONTA", "DT_ACORDO"), all = TRUE)
+
+q2_data_merged[is.na(q2_data_merged)] = 0
+
+qtd_acionamento_outliers = c((quantile(q2_data_merged$QTD_ACIONAMENTO_6M)[2])-1.5*IQR(q2_data_merged$QTD_ACIONAMENTO_6M),
+                  (quantile(q2_data_merged$QTD_ACIONAMENTO_6M)[4]+1.5*IQR(q2_data_merged$QTD_ACIONAMENTO_6M)))
+
+q2_data_merged %>%
+  select(ID_CONTA, DIVIDA_ATUAL, RESPOSTA) %>%
+  group_by(ID_CONTA)
+
+# exportando o dataframe completo como arquivo txt
+output_file = "./data/Q2_BaseCompleta.txt"
+
+if (file.exists(output_file)){
+  file.remove(output_file)
+}
+
+write_tsv(q2_data_merged, output_file)

@@ -3,7 +3,6 @@ title: "Desafio FortBrasil"
 author: "Gabriel Alvaro Batista"
 output:
   pdf_document: default
-  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -29,6 +28,7 @@ library(lubridate)
 q1_data = read_table(unz("./data/data.zip", "Q1_Base.txt"))
 ```
 
+***
 
 ## 1.1
 
@@ -65,10 +65,11 @@ ggsave(filename = "./output/Q1_Grafico.jpg",
 
 \
 
-```{r, eval = TRUE, echo = FALSE, out.width = "700px", fig.align = "center"}
+```{r, eval = TRUE, echo = FALSE, out.width = "450px", fig.align = "center"}
 knitr::include_graphics('../output/Q1_Grafico.jpg')
 ```
 
+\newpage
 ***
 
 ## 1.2
@@ -84,7 +85,9 @@ clientes_setembro = q1_data %>%
 # condicionamento dos dados e criacao da base resposta
 q1_resposta = merge(clientes_setembro, 
                          q1_data %>%
-                           mutate(MES = month(DT_VENCIMENTO, label = TRUE, locale = "Portuguese")) %>%
+                           mutate(MES = month(DT_VENCIMENTO, 
+                                              label = TRUE, 
+                                              locale = "Portuguese")) %>%
                            filter(ID_CONTA %in% clientes_setembro$ID_CONTA) %>%
                            filter(MES %in% c("mar", "abr", "mai", "jun", "jul", "ago")) %>%
                            group_by(ID_CONTA) %>%
@@ -105,9 +108,8 @@ write_tsv(q1_resposta, output_file)
 ```
 
 \
-\
 
-Podemos carregar a base de dados criada para verificar se foram salvos da maneira correta:
+Podemos carregar a base de dados criada para verificar se foram salvos corretamente:
 
 ```{r, eval = TRUE}
 dplyr::glimpse(read.table("../output/Q1_Resposta.txt", nrows = 50, header = TRUE))
@@ -116,6 +118,7 @@ dplyr::glimpse(read.table("../output/Q1_Resposta.txt", nrows = 50, header = TRUE
 ***
 
 # Questão 2
+
 
 ***
 
@@ -127,7 +130,7 @@ Todo o processo foi feito utilizando o pacote **RSQLite**.
 
 Quatro dataframes foram criados, referentes a cada tabela, e inseridos no banco de dados *vendas_sample.sqlite3*, que está disponibilizado na pasta *data*.
 
-O script utilizado (*q3_queries.R*) bem como um arquivo de texto somente com as queries (**)
+O script utilizado (*q3_queries.R*), bem como um arquivo de texto somente com as queries (*q3_queries.txt*), estão disponibilizados na pasta *code*.
 
 ```{r, eval = TRUE}
 # setup
@@ -135,15 +138,13 @@ library(RSQLite)
 
 # criando banco de dados
 sample_db = "../data/vendas_sample.sqlite3"
-if(file.exists(sample_db)){
-  file.remove(sample_db)
-}
-
 conn = dbConnect(SQLite(), sample_db)
 
 # inserindo dados no bd para testar as queries
 df_Tempo = data.frame(id_tempo = c(1, 2, 3, 4, 5, 6),
-                      dt_ref = c("2020-01-01", "2020-03-02", "2020-03-01", "2020-04-01", "2020-05-01", "2020-01-16"),
+                      dt_ref = c("2020-01-01", "2020-03-02", 
+                                 "2020-03-01", "2020-04-01", 
+                                 "2020-05-01", "2020-01-16"),
                       nu_semana = c(1, 1, 1, 1, 1, 2),
                       nu_mes = c(1, 3, 3, 4, 5, 1),
                       nu_ano = c(2020, 2020, 2020, 2020, 2020, 2020))

@@ -61,11 +61,6 @@ q2_data_merged = merge(q2_data_1, q2_data_2, by = c("ID_CONTA", "DT_ACORDO"), al
   merge(q2_data_4, by = c("ID_CONTA", "DT_ACORDO"), all = TRUE) %>%
   merge(q2_data_5, by = c("ID_CONTA", "DT_ACORDO"), all = TRUE)
 
-q2_data_merged[is.na(q2_data_merged)] = 0
-
-q2_acionamento_outliers = c((quantile(q2_data_merged$QTD_ACIONAMENTO_6M)[2])-1.5*IQR(q2_data_merged$QTD_ACIONAMENTO_6M),
-                  (quantile(q2_data_merged$QTD_ACIONAMENTO_6M)[4]+1.5*IQR(q2_data_merged$QTD_ACIONAMENTO_6M)))
-
 q2_base = q2_data_merged %>%
   select(ID_CONTA, DIVIDA_ATUAL, 
          RESPOSTA, DT_ACORDO, 
@@ -81,6 +76,10 @@ q2_base = q2_data_merged %>%
             NU_DIAS_ATRASO = max(NU_DIAS_ATRASO))
 
 q2_base[is.na(q2_base)] = 0
+
+q2_acionamento_outliers = c((quantile(q2_data_merged$QTD_ACIONAMENTO_6M)[2])-1.5*IQR(q2_data_merged$QTD_ACIONAMENTO_6M),
+                            (quantile(q2_data_merged$QTD_ACIONAMENTO_6M)[4]+1.5*IQR(q2_data_merged$QTD_ACIONAMENTO_6M)))
+
 
 # exportando o dataframe completo como arquivo txt
 output_file = "./data/Q2_BaseCompleta.txt"

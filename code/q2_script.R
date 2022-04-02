@@ -77,8 +77,8 @@ q2_base = q2_data_merged %>%
 
 q2_base[is.na(q2_base)] = 0
 
-q2_acionamento_outliers = c((quantile(q2_data_merged$QTD_ACIONAMENTO)[2])-1.5*IQR(q2_data_merged$QTD_ACIONAMENTO),
-                            (quantile(q2_data_merged$QTD_ACIONAMENTO)[4]+1.5*IQR(q2_data_merged$QTD_ACIONAMENTO)))
+q2_acionamento_outliers = c((quantile(q2_base$QTD_ACIONAMENTO)[2])-1.5*IQR(q2_base$QTD_ACIONAMENTO),
+                            (quantile(q2_base$QTD_ACIONAMENTO)[4]+1.5*IQR(q2_base$QTD_ACIONAMENTO)))
 
 
 # exportando o dataframe completo como arquivo txt

@@ -3,10 +3,6 @@ library(RSQLite)
 
 # criando banco de dados
 sample_db = "./data/vendas_sample.sqlite3"
-if(file.exists(sample_db)){
-  file.remove(sample_db)
-}
-
 conn = dbConnect(SQLite(), sample_db)
 
 # inserindo dados no bd para testar as queries

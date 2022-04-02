@@ -84,18 +84,9 @@ q2_base[is.na(q2_base)] = 0
 
 # exportando o dataframe completo como arquivo txt
 output_file = "./data/Q2_BaseCompleta.txt"
-output_divida = "./data/Q2_DividaFinal.txt"
 
 if (file.exists(output_file)){
   file.remove(output_file)
 }
 
-write_tsv(q2_data_merged, output_file)
-
-if (file.exists(output_divida)){
-  file.remove(output_divida)
-}
-
-write_tsv(q2_divida_final, output_divida)
-
-####
+write_tsv(q2_base, output_file)

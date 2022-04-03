@@ -16,7 +16,7 @@ Fico muito orgulhoso do projeto que realizei e de ter tido a oportunidade de mos
  </sub>
 </div>
 <div>
-<h2>Estrutura do projeto</h>
+<h2>Estrutura</h>
 </div>
 
 Utilizei [este template](https://github.com/andreashandel/dataanalysis-template) para organizar as pastas:

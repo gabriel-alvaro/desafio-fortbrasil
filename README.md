@@ -23,7 +23,8 @@ Utilizei [este template](https://github.com/andreashandel/dataanalysis-template)
 - **code**: temos os códigos utilizados para resolução do case e para criação dos arquivos PDF.
 - **data**: aqui estão todas as bases de dados utilizadas no projeto, incluindo a base criada para teste das queries. O arquivo 'data.zip' contém as bases de dados fornecidas inicialmente para o case.
 - **output**: onde encontram-se as saídas do projeto - as imagens e gráficos, o relatório e a base de dados resposta.
-- **root**: no diretório princiapl, estão as respostas em PDF e o arquivo .Rproj, que estrutura todo o projeto dentro do RStudio e facilita sua navegação.
+- **respostas**: aqui estão os arquivos PDF com as respostas às questões do case.
+- **root**: no diretório princiapl, está o arquivo .Rproj, que estrutura todo o projeto dentro do RStudio e facilita sua navegação.
 
 <div>
 <h2>Instruções</h>
